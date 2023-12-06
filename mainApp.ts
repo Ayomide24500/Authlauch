@@ -5,7 +5,7 @@ import auth from "./router/userRouter";
 import ejs from "ejs";
 export const mainApp = (app: Application) => {
   try {
-    app.use("api/v1", auth);
+    app.use("/api/v1", auth);
     app.set("view-engine", "ejs");
 
     app.get("/views", (req: Request, res: Response) => {
