@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
-import joi, { ObjectSchema } from "joi";
-import { HTTP } from "../error/mainError";
+import { ObjectSchema } from "joi";
+import { HTTP } from "./enums";
 
 export default (schema: ObjectSchema<any>) => {
   return (req: Request, res: Response, next: NextFunction) => {
@@ -10,8 +10,7 @@ export default (schema: ObjectSchema<any>) => {
       next();
     } else {
       return res.status(HTTP.BAD).json({
-        message: "validation error",
-        data: error,
+        error: error.details[0].message,
       });
     }
   };

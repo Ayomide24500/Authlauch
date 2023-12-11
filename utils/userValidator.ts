@@ -8,3 +8,8 @@ export const registerValidator = joi.object({
   password: joi.string().pattern(new RegExp(regex)).required(),
   confirm: joi.ref("password"),
 });
+
+export const passwordValidator = joi.object({
+  password: joi.string().pattern(new RegExp(regex)).required(),
+  confirm: joi.ref("password"),
+});

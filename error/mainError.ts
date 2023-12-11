@@ -1,15 +1,5 @@
-export enum HTTP {
-  OK = 200,
-  CREATED = 201,
-  BAD = 404,
-}
-
-interface iError {
-  name: string;
-  message: string;
-  status: HTTP;
-  success: boolean;
-}
+import { HTTP } from "../utils/enums";
+import { iError } from "../utils/interface";
 
 export class mainError extends Error {
   public readonly name: string;
@@ -29,7 +19,6 @@ export class mainError extends Error {
     if (this.success === undefined) {
       this.success = args.success;
     }
-
     Error.captureStackTrace;
   }
 }

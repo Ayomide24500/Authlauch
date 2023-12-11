@@ -1,14 +1,15 @@
-import mongoose, { connect } from "mongoose";
-import dotEnv from "dotenv";
-dotEnv.config();
-const URL: string | undefined = process.env.DATABASE_STRING;
+import env from "dotenv";
+import { connect } from "mongoose";
+env.config();
 
-export const mainConnection = () => {
+export const dbConfig = async () => {
   try {
-    connect("mongodb+srv://Ayomide12:Ayo234@cluster0.31friv9.mongodb.net/Flowdb?retryWrites=true&w=majority").then(() => {
-      console.log("Database is now connected..🚀🚀🚀!");
-    });
+    await connect(process.env.DATABASE_URL!)
+      .then(() => {
+        console.log("db connected...🔥🔥🔥");
+      })
+      .catch(() => console.error());
   } catch (error) {
-    console.log(error);
+    return error;
   }
 };

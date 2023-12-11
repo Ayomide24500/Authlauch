@@ -8,18 +8,24 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.mainConnection = void 0;
+exports.dbConfig = void 0;
+const dotenv_1 = __importDefault(require("dotenv"));
 const mongoose_1 = require("mongoose");
-const URL = process.env.DATABASE_STRING;
-const mainConnection = () => __awaiter(void 0, void 0, void 0, function* () {
+dotenv_1.default.config();
+const dbConfig = () => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        (0, mongoose_1.connect)("mongodb://127.0.0.1:27017/Authflows").then(() => {
-            console.log("Database is now connected..🚀🚀🚀!");
-        });
+        yield (0, mongoose_1.connect)(process.env.DATABASE_URL)
+            .then(() => {
+            console.log("Database connected ..🚀🚀🚀");
+        })
+            .catch(() => console.error());
     }
     catch (error) {
-        console.log(error);
+        return error;
     }
 });
-exports.mainConnection = mainConnection;
+exports.dbConfig = dbConfig;

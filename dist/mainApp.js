@@ -4,50 +4,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.mainApp = void 0;
-const mainError_1 = require("./error/mainError");
-const errorHandler_1 = require("./error/errorHandler");
 const userRouter_1 = __importDefault(require("./router/userRouter"));
+const mainError_1 = require("./error/mainError");
+const enums_1 = require("./utils/enums");
+const handleError_1 = require("./error/handleError");
 const mainApp = (app) => {
+    app.use("/api/user", userRouter_1.default);
     try {
-        app.use("api/v1", userRouter_1.default);
-        app.set("view-engine", "ejs");
-        app.get("/views", (req, res) => {
-            try {
-                const user = {
-                    name: "Habeeb",
-                    email: "ayomideadisa@gmail.com",
-                    _id: "43223dj44",
-                    token: 32556,
-                };
-                return res.status(200).render("index.ejs", { user });
-            }
-            catch (error) {
-                return res.status(404).json({
-                    message: "Error",
-                });
-            }
-        });
         app.get("/", (req, res) => {
             try {
-                return res.status(200).json({
-                    message: "Hello",
+                res.status(200).json({
+                    message: "Welcome to Awesome Api",
                 });
             }
             catch (error) {
-                return res.status(404).json({
-                    message: "Invalid",
+                res.status(404).json({
+                    message: "Error",
                 });
             }
         });
         app.all("*", (req, res, next) => {
             next(new mainError_1.mainError({
                 name: "Route Error",
-                message: `This route ${req.originalUrl} does not exist`,
-                status: mainError_1.HTTP.BAD,
+                message: `this endpoint you entered ${req.originalUrl} doesn't exit`,
+                status: enums_1.HTTP.BAD,
                 success: false,
             }));
         });
-        app.use(errorHandler_1.errorHandler);
+        app.use(handleError_1.handleError);
     }
     catch (error) {
         return error;

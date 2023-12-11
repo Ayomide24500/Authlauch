@@ -1,14 +1,5 @@
-import { Document, Schema, model } from "mongoose";
-
-interface iUser {
-  email: string;
-  password: string;
-  verify: boolean;
-  verifyToken: string;
-  status: string;
-}
-
-interface iUserData extends iUser, Document {}
+import { Schema, model } from "mongoose";
+import { iUserData } from "../utils/interface";
 
 const userModel = new Schema<iUserData>(
   {
@@ -19,13 +10,14 @@ const userModel = new Schema<iUserData>(
     password: {
       type: String,
     },
-
-    status: {
+    token: {
       type: String,
-      default: "user",
     },
-
-    verifyToken: {
+    AdminCode: {
+      type: String,
+      unique: true,
+    },
+    status: {
       type: String,
     },
     verify: {
@@ -36,4 +28,4 @@ const userModel = new Schema<iUserData>(
   { timestamps: true }
 );
 
-export default model<iUserData>("users", userModel);
+export default model<iUserData>("admins", userModel);
